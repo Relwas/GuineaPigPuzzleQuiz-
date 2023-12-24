@@ -23,6 +23,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    var arr = UserDefaultsManager.shared.favoriteImages
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,7 +35,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "Fon")
-
+        title = "Favorites"
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(named: "Fon")
@@ -75,7 +76,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! BreedDetailImageCell
         
-        let imageName = UserDefaultsManager.shared.favoriteImages[indexPath.item]
+        let imageName = arr[indexPath.row]
         
         if let image = UIImage(named: imageName) {
             cell.imageView.image = image
@@ -83,15 +84,11 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
             print("Image not found: \(imageName)")
             cell.imageView.image = UIImage(named: "MainPhoto")
         }
-        
+        cell.imageName = imageName
         cell.delegate = self
-        cell.imageIdentifier = "Breed_\(imageName)_\(indexPath.item)"
-
-        let isFavorite = UserDefaults.standard.bool(forKey: cell.imageIdentifier ?? "")
-        cell.isFavorite = isFavorite
+        cell.isFavorite = true
         
-        let heartImageName = isFavorite ? "heart.fill" : "heart"
-        let tintedHeartImage = UIImage(systemName: heartImageName)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)).withTintColor(UIColor(named: "HeartC")!, renderingMode: .alwaysOriginal)
+        let tintedHeartImage = UIImage(systemName: "heart.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)).withTintColor(UIColor(named: "HeartC")!, renderingMode: .alwaysOriginal)
         cell.heartButton.setImage(tintedHeartImage, for: .normal)
 
         return cell
@@ -101,6 +98,8 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
     }
 
     func handleFavoriteTap(_ cell: BreedDetailImageCell, isFavorite: Bool, imageIdentifier: String) {
+        arr = arr.filter{ $0 != imageIdentifier }
+        collectionView.reloadData()
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

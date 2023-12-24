@@ -10,7 +10,9 @@ class UserDefaultsManager {
             return UserDefaults.standard.stringArray(forKey: favoritesKey) ?? []
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: favoritesKey)
+            let set = Set(newValue)
+            let arr = Array(set)
+            UserDefaults.standard.set(arr, forKey: favoritesKey)
         }
     }
 
@@ -33,7 +35,8 @@ class UserDefaultsManager {
     }
 
     func isFavoriteImage(imageIdentifier: String) -> Bool {
-        return UserDefaults.standard.bool(forKey: imageIdentifier)
+        return favoriteImages.contains(imageIdentifier)
+//        return UserDefaults.standard.bool(forKey: imageIdentifier)
     }
 
 

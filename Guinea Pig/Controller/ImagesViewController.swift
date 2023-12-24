@@ -13,6 +13,7 @@ class ImagesViewController: UIViewController, UICollectionViewDataSource, UIColl
     let breedName: String
     var collectionView: UICollectionView!
     var breedImages: [UIImage] = []
+    var arr: [String] = []
 
     init(breedName: String) {
         self.breedName = breedName
@@ -61,9 +62,9 @@ class ImagesViewController: UIViewController, UICollectionViewDataSource, UIColl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! BreedDetailImageCell
         cell.imageView.image = breedImages[indexPath.item]
         cell.delegate = self
-        cell.imageName = "Breed_\(breedName)_\(indexPath.item).jpg" // Set the image name
+        cell.imageName = "Breeds/\(breedName)/\(arr[indexPath.row])"
 
-        let isFavorite = UserDefaults.standard.bool(forKey: cell.imageIdentifier ?? "")
+        let isFavorite = UserDefaultsManager.shared.isFavoriteImage(imageIdentifier: cell.imageName!)
         cell.isFavorite = isFavorite
         let heartImageName = isFavorite ? "heart.fill" : "heart"
         let tintedHeartImage = UIImage(systemName: heartImageName)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)).withTintColor(UIColor(named: "HeartC")!, renderingMode: .alwaysOriginal)
@@ -93,6 +94,8 @@ class ImagesViewController: UIViewController, UICollectionViewDataSource, UIColl
             if let imagePath = Bundle.main.path(forResource: "Breeds/\(breedName)/\(imageName)", ofType: nil),
                let image = UIImage(contentsOfFile: imagePath) {
                 images.append(image)
+                let str = URL(string: imagePath)?.lastPathComponent ?? ""
+                arr.append(str)
             } else {
                 print("Error: Could not load image \(imageName) for breed \(breedName)")
             }
