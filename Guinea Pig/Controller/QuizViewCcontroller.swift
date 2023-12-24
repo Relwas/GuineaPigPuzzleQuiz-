@@ -29,7 +29,7 @@ class QuizViewController: UIViewController {
         let label = UILabel()
         label.text = "What kind of breed is this?"
         label.textColor = .colorLabel1
-        label.font = UIFont(name: "AvenirNext-DemiBold", size: 22.0)
+        label.font = UIFont(name: "DevanagariSangamMN-Bold", size: 21.0)
         label.textAlignment = .center
         return label
     }()
@@ -69,8 +69,9 @@ class QuizViewController: UIViewController {
         view.addSubview(answerButton2)
         view.addSubview(answerButton3)
         view.addSubview(answerButton4)
+        navigationController?.navigationBar.tintColor = .colorBackNav
 
-        let buttonFont = UIFont(name: "AvenirNext-DemiBold", size: 16.0)
+        let buttonFont = UIFont(name: "Avenir-Medium", size: 17.0)
         let buttonTitleColor = UIColor.white
 
         for button in [answerButton1, answerButton2, answerButton3, answerButton4] {
@@ -81,72 +82,65 @@ class QuizViewController: UIViewController {
             button.backgroundColor = .buttonBack
             button.addTarget(self, action: #selector(answerButtonTapped(_:)), for: .touchUpInside)
         }
+
         imageView.translatesAutoresizingMaskIntoConstraints = false
         questionLabel.translatesAutoresizingMaskIntoConstraints = false
         answerButton2.translatesAutoresizingMaskIntoConstraints = false
         answerButton3.translatesAutoresizingMaskIntoConstraints = false
         answerButton4.translatesAutoresizingMaskIntoConstraints = false
+
+        let buttonHeightConstant: CGFloat = view.bounds.height * 0.1 - 20
+
         NSLayoutConstraint.activate([
-        ])
-        NSLayoutConstraint.activate([
-            questionLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            questionLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height * 0.2 - 30),
             questionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             questionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             imageView.heightAnchor.constraint(equalToConstant: 250),
-
             imageView.topAnchor.constraint(equalTo: questionLabel.bottomAnchor, constant: 30),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-
             answerButton1.bottomAnchor.constraint(equalTo: answerButton2.topAnchor, constant: -10),
             answerButton1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             answerButton1.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            answerButton1.heightAnchor.constraint(equalToConstant: 45),
-
+            answerButton1.heightAnchor.constraint(equalToConstant: buttonHeightConstant),
             answerButton2.bottomAnchor.constraint(equalTo: answerButton3.topAnchor, constant: -10),
             answerButton2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             answerButton2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            answerButton2.heightAnchor.constraint(equalToConstant: 45),
-
+            answerButton2.heightAnchor.constraint(equalToConstant: buttonHeightConstant),
             answerButton3.bottomAnchor.constraint(equalTo: answerButton4.topAnchor, constant: -10),
             answerButton3.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             answerButton3.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            answerButton3.heightAnchor.constraint(equalToConstant: 45),
-
+            answerButton3.heightAnchor.constraint(equalToConstant: buttonHeightConstant),
             answerButton4.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             answerButton4.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             answerButton4.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            answerButton4.heightAnchor.constraint(equalToConstant: 45),
+            answerButton4.heightAnchor.constraint(equalToConstant: buttonHeightConstant),
             blackBackgroundView1.topAnchor.constraint(equalTo: answerButton1.topAnchor, constant: 2),
             blackBackgroundView1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             blackBackgroundView1.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
-            blackBackgroundView1.heightAnchor.constraint(equalToConstant: 45),
-
+            blackBackgroundView1.heightAnchor.constraint(equalTo: answerButton1.heightAnchor),
             blackBackgroundView2.topAnchor.constraint(equalTo: answerButton2.topAnchor, constant: 2),
             blackBackgroundView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             blackBackgroundView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
-            blackBackgroundView2.heightAnchor.constraint(equalToConstant: 45),
-
+            blackBackgroundView2.heightAnchor.constraint(equalTo: answerButton2.heightAnchor),
             blackBackgroundView3.topAnchor.constraint(equalTo: answerButton3.topAnchor, constant: 2),
             blackBackgroundView3.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             blackBackgroundView3.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
-            blackBackgroundView3.heightAnchor.constraint(equalToConstant: 45),
-
+            blackBackgroundView3.heightAnchor.constraint(equalTo: answerButton3.heightAnchor),
             blackBackgroundView4.topAnchor.constraint(equalTo: answerButton4.topAnchor, constant: 2),
             blackBackgroundView4.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             blackBackgroundView4.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
-            blackBackgroundView4.heightAnchor.constraint(equalToConstant: 45),
-
+            blackBackgroundView4.heightAnchor.constraint(equalTo: answerButton4.heightAnchor),
         ])
     }
     func createBlackBackgroundView() -> UIView {
-          let blackView = UIView()
-          blackView.translatesAutoresizingMaskIntoConstraints = false
-          blackView.backgroundColor = .black // You can customize the color
-          blackView.layer.cornerRadius = 20
-          blackView.layer.masksToBounds = true
-          return blackView
-      }
+        let blackView = UIView()
+        blackView.translatesAutoresizingMaskIntoConstraints = false
+        blackView.backgroundColor = .black
+        blackView.layer.cornerRadius = 20
+        blackView.layer.masksToBounds = true
+        return blackView
+    }
 
     private func loadSound(named fileName: String, into player: inout AVAudioPlayer?) {
         if let soundURL = Bundle.main.url(forResource: fileName, withExtension: "mp3") {
@@ -187,19 +181,14 @@ class QuizViewController: UIViewController {
                         if questionCount >= 15 {
                             break
                         }
-                    } else {
-                        print("No images found in the folder: \(breedName)")
                     }
                 }
             }
-        } else {
-            print("Failed to load breed names.")
         }
     }
 
     private func showCurrentQuestion() {
         guard currentQuestionIndex < questions.count else {
-            print("Quiz already ended.")
             return
         }
 
@@ -217,7 +206,6 @@ class QuizViewController: UIViewController {
 
     private func moveToNextQuestion() {
         guard currentQuestionIndex < questions.count else {
-            print("Quiz already ended.")
             endQuiz()
             return
         }
@@ -226,21 +214,11 @@ class QuizViewController: UIViewController {
         if currentQuestionIndex < questions.count {
             showCurrentQuestion()
         } else {
-            print("Quiz already ended.")
             endQuiz()
         }
     }
 
-    private func resetTimer() {
-        // Timer is removed
-    }
-
-    private func startTimer() {
-        // Timer is removed
-    }
-
     private func endQuiz() {
-        // Timer is removed
         showResultController(correctAnswers: correctAnswers)
     }
 
@@ -262,8 +240,6 @@ class QuizViewController: UIViewController {
             } catch let error {
                 print("Error playing music: \(error.localizedDescription)")
             }
-        } else {
-            print("Sound is disabled or could not find music file.")
         }
     }
 
@@ -288,15 +264,12 @@ class QuizViewController: UIViewController {
         questions.removeAll()
         loadQuestions()
         showCurrentQuestion()
-        // Timer is removed
-    }
-
-    @objc private func timerTick() {
-        // Timer is removed
     }
 
     @objc func updateVibrationSetting(_ notification: Notification) {
-        // Vibration code is removed
+        if let isVibrationEnabled = notification.userInfo?["isVibrationEnabled"] as? Bool {
+            VibrationManager.shared.isVibrationEnabled = isVibrationEnabled
+        }
     }
 
     @objc private func answerButtonTapped(_ sender: UIButton) {
@@ -305,20 +278,21 @@ class QuizViewController: UIViewController {
         }
 
         let isCorrectAnswer = sender.title(for: .normal) == questions[currentQuestionIndex].correctAnswer
-
         if isCorrectAnswer {
             correctAnswers += 1
             if UserDefaults.standard.bool(forKey: "SoundSetting") {
                 correctSoundPlayer?.play()
             }
-            sender.backgroundColor = .green  // Change color for correct answer
+            sender.backgroundColor = .correct1
         } else {
             if UserDefaults.standard.bool(forKey: "SoundSetting") {
                 incorrectSoundPlayer?.play()
             }
-            sender.backgroundColor = .red
+            sender.backgroundColor = .incorrect1
         }
-
+        if VibrationManager.shared.isVibrationEnabled {
+            isCorrectAnswer ? VibrationManager.shared.vibrateSuccess() : VibrationManager.shared.vibrateError()
+        }
         for button in [answerButton1, answerButton2, answerButton3, answerButton4] {
             button.isUserInteractionEnabled = false
         }

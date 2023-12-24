@@ -22,6 +22,7 @@ class BreedsManager {
         "Silkie guinea pig",
         "Teddy guinea pig",
         "Funny guinea pig",
+        "Satin guinea pig"
     ]
 
     func getBreeds() -> [Breed] {

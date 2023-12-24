@@ -14,7 +14,7 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .fon
         navigationController?.navigationBar.tintColor = .colorBackNav
-
+        title = "Games"
         let verticalStackView = UIStackView()
         verticalStackView.axis = .vertical
         verticalStackView.spacing = 10
@@ -45,13 +45,14 @@ class GameViewController: UIViewController {
 
     @objc func quizButtonTapped() {
         let quizVC = QuizViewController()
-        navigationController?.pushViewController(quizVC, animated: true)
+        quizVC.modalPresentationStyle = .fullScreen
+        present(quizVC, animated: true)
         print("Quiz button tapped!")
     }
 
     func createButton(title: String, backgroundColor: UIColor, target: Any?, action: Selector?) -> UIView {
         let button = UIButton()
-        button.titleLabel?.font = UIFont(name: "EuphemiaUCAS-Bold", size: 28)
+        button.titleLabel?.font = UIFont(name: "Avenir-Medium", size: 28)
         button.setTitle(title, for: .normal)
         button.backgroundColor = backgroundColor
 

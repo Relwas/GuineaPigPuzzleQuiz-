@@ -16,10 +16,10 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
 
     let emptyFavoritesLabel: UILabel = {
         let label = UILabel()
-        label.text = "No favorites yet."
+        label.text = "No favorites yet!"
         label.textAlignment = .center
-        label.textColor = UIColor(named: "LabelColor1")
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = .labelAbout
+        label.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,8 +45,8 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
         ])
 
@@ -67,7 +67,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDataSource, UICo
         return UserDefaultsManager.shared.favoriteImages.count
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = (collectionView.frame.width - 10)
+        let cellWidth = (collectionView.frame.width + 10)
         let cellHeight: CGFloat = 300
         
         return CGSize(width: cellWidth, height: cellHeight)

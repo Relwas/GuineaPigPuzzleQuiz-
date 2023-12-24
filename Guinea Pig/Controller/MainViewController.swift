@@ -52,5 +52,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func settingsButtonTapped() {
+        let setVC = SettingsViewController()
+        navigationController?.pushViewController(setVC, animated: true)
     }
 }

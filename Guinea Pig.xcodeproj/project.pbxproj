@@ -11,6 +11,12 @@
 		9244ABCF2B381F6700D95D58 /* PuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244ABCE2B381F6700D95D58 /* PuzzleViewController.swift */; };
 		9244ABD12B381F7200D95D58 /* QuizViewCcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244ABD02B381F7200D95D58 /* QuizViewCcontroller.swift */; };
 		9244ABD32B3859F300D95D58 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244ABD22B3859F300D95D58 /* ResultViewController.swift */; };
+		9244ABD52B387BE400D95D58 /* correctSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9244ABD42B387BE400D95D58 /* correctSound.mp3 */; };
+		9244ABD82B3880D700D95D58 /* SPConfetti in Frameworks */ = {isa = PBXBuildFile; productRef = 9244ABD72B3880D700D95D58 /* SPConfetti */; };
+		9244ABDA2B38895000D95D58 /* incorrectSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9244ABD92B38895000D95D58 /* incorrectSound.mp3 */; };
+		9244ABDC2B388A2F00D95D58 /* resultSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9244ABDB2B388A2F00D95D58 /* resultSound.mp3 */; };
+		9244ABDE2B388B6400D95D58 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244ABDD2B388B6400D95D58 /* SettingsViewController.swift */; };
+		9244ABE22B38ABC900D95D58 /* AboutOurAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9244ABE12B38ABC900D95D58 /* AboutOurAppViewController.swift */; };
 		924B2C672B35C30D00F65F44 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924B2C662B35C30D00F65F44 /* UserDefaultsManager.swift */; };
 		92ABCE572B3419C500F63F9C /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ABCE562B3419C500F63F9C /* Breed.swift */; };
 		92ABCE592B3419DC00F63F9C /* BreedsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ABCE582B3419DC00F63F9C /* BreedsManager.swift */; };
@@ -33,6 +39,11 @@
 		9244ABCE2B381F6700D95D58 /* PuzzleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleViewController.swift; sourceTree = "<group>"; };
 		9244ABD02B381F7200D95D58 /* QuizViewCcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewCcontroller.swift; sourceTree = "<group>"; };
 		9244ABD22B3859F300D95D58 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		9244ABD42B387BE400D95D58 /* correctSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctSound.mp3; sourceTree = "<group>"; };
+		9244ABD92B38895000D95D58 /* incorrectSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = incorrectSound.mp3; sourceTree = "<group>"; };
+		9244ABDB2B388A2F00D95D58 /* resultSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = resultSound.mp3; sourceTree = "<group>"; };
+		9244ABDD2B388B6400D95D58 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		9244ABE12B38ABC900D95D58 /* AboutOurAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutOurAppViewController.swift; sourceTree = "<group>"; };
 		924B2C662B35C30D00F65F44 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		92ABCE562B3419C500F63F9C /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
 		92ABCE582B3419DC00F63F9C /* BreedsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsManager.swift; sourceTree = "<group>"; };
@@ -57,6 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92DCF8522B33262900BCAAE7 /* FLAnimatedImage in Frameworks */,
+				9244ABD82B3880D700D95D58 /* SPConfetti in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +115,8 @@
 				9244ABCE2B381F6700D95D58 /* PuzzleViewController.swift */,
 				9244ABD02B381F7200D95D58 /* QuizViewCcontroller.swift */,
 				9244ABD22B3859F300D95D58 /* ResultViewController.swift */,
+				9244ABDD2B388B6400D95D58 /* SettingsViewController.swift */,
+				9244ABE12B38ABC900D95D58 /* AboutOurAppViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -110,6 +124,9 @@
 		92DCF8472B33225600BCAAE7 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				9244ABD42B387BE400D95D58 /* correctSound.mp3 */,
+				9244ABD92B38895000D95D58 /* incorrectSound.mp3 */,
+				9244ABDB2B388A2F00D95D58 /* resultSound.mp3 */,
 				92DCF8592B336B0E00BCAAE7 /* Breeds */,
 				92DCF8322B3320BC00BCAAE7 /* AppDelegate.swift */,
 				924B2C662B35C30D00F65F44 /* UserDefaultsManager.swift */,
@@ -155,6 +172,7 @@
 			name = "Guinea Pig";
 			packageProductDependencies = (
 				92DCF8512B33262900BCAAE7 /* FLAnimatedImage */,
+				9244ABD72B3880D700D95D58 /* SPConfetti */,
 			);
 			productName = "Guinea Pig";
 			productReference = 92DCF82F2B3320BC00BCAAE7 /* Guinea Pig.app */;
@@ -186,6 +204,7 @@
 			mainGroup = 92DCF8262B3320BC00BCAAE7;
 			packageReferences = (
 				92DCF8502B33262900BCAAE7 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */,
+				9244ABD62B3880D700D95D58 /* XCRemoteSwiftPackageReference "SPConfetti" */,
 			);
 			productRefGroup = 92DCF8302B3320BC00BCAAE7 /* Products */;
 			projectDirPath = "";
@@ -202,6 +221,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				92DCF83F2B3320BE00BCAAE7 /* LaunchScreen.storyboard in Resources */,
+				9244ABDC2B388A2F00D95D58 /* resultSound.mp3 in Resources */,
+				9244ABDA2B38895000D95D58 /* incorrectSound.mp3 in Resources */,
+				9244ABD52B387BE400D95D58 /* correctSound.mp3 in Resources */,
 				92DCF84F2B3324E800BCAAE7 /* giff.gif in Resources */,
 				92DCF83C2B3320BE00BCAAE7 /* Assets.xcassets in Resources */,
 				92DCF85A2B336B0E00BCAAE7 /* Breeds in Resources */,
@@ -223,8 +245,10 @@
 				92DCF84D2B33246400BCAAE7 /* MainView.swift in Sources */,
 				924B2C672B35C30D00F65F44 /* UserDefaultsManager.swift in Sources */,
 				92DCF8372B3320BC00BCAAE7 /* MainViewController.swift in Sources */,
+				9244ABDE2B388B6400D95D58 /* SettingsViewController.swift in Sources */,
 				92ABCE592B3419DC00F63F9C /* BreedsManager.swift in Sources */,
 				9244ABD32B3859F300D95D58 /* ResultViewController.swift in Sources */,
+				9244ABE22B38ABC900D95D58 /* AboutOurAppViewController.swift in Sources */,
 				9244ABD12B381F7200D95D58 /* QuizViewCcontroller.swift in Sources */,
 				9244ABCD2B381AA300D95D58 /* GameViewController.swift in Sources */,
 				9244ABCF2B381F6700D95D58 /* PuzzleViewController.swift in Sources */,
@@ -375,12 +399,12 @@
 				DEVELOPMENT_TEAM = L64DM58658;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Guinea Pig/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Guinea Pig Quiz";
+				INFOPLIST_KEY_CFBundleDisplayName = Guiny;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.educational-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -408,12 +432,12 @@
 				DEVELOPMENT_TEAM = L64DM58658;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Guinea Pig/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Guinea Pig Quiz";
+				INFOPLIST_KEY_CFBundleDisplayName = Guiny;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.educational-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -455,6 +479,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9244ABD62B3880D700D95D58 /* XCRemoteSwiftPackageReference "SPConfetti" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivanvorobei/SPConfetti";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.1;
+			};
+		};
 		92DCF8502B33262900BCAAE7 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Flipboard/FLAnimatedImage";
@@ -466,6 +498,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9244ABD72B3880D700D95D58 /* SPConfetti */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9244ABD62B3880D700D95D58 /* XCRemoteSwiftPackageReference "SPConfetti" */;
+			productName = SPConfetti;
+		};
 		92DCF8512B33262900BCAAE7 /* FLAnimatedImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 92DCF8502B33262900BCAAE7 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */;
