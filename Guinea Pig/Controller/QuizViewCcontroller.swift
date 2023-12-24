@@ -28,7 +28,7 @@ class QuizViewController: UIViewController {
     private let questionLabel: UILabel = {
         let label = UILabel()
         label.text = "What kind of breed is this?"
-        label.textColor = UIColor(named: "LabelColor1")
+        label.textColor = .colorLabel1
         label.font = UIFont(name: "AvenirNext-DemiBold", size: 22.0)
         label.textAlignment = .center
         return label
@@ -54,6 +54,15 @@ class QuizViewController: UIViewController {
     }
 
     private func setupViews() {
+        let blackBackgroundView1 = createBlackBackgroundView()
+        let blackBackgroundView2 = createBlackBackgroundView()
+        let blackBackgroundView3 = createBlackBackgroundView()
+        let blackBackgroundView4 = createBlackBackgroundView()
+
+        view.addSubview(blackBackgroundView1)
+        view.addSubview(blackBackgroundView2)
+        view.addSubview(blackBackgroundView3)
+        view.addSubview(blackBackgroundView4)
         view.addSubview(imageView)
         view.addSubview(questionLabel)
         view.addSubview(answerButton1)
@@ -77,16 +86,17 @@ class QuizViewController: UIViewController {
         answerButton2.translatesAutoresizingMaskIntoConstraints = false
         answerButton3.translatesAutoresizingMaskIntoConstraints = false
         answerButton4.translatesAutoresizingMaskIntoConstraints = false
-
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            imageView.heightAnchor.constraint(equalToConstant: 250),
-
-            questionLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30),
+        ])
+        NSLayoutConstraint.activate([
+            questionLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             questionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             questionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            imageView.heightAnchor.constraint(equalToConstant: 250),
+
+            imageView.topAnchor.constraint(equalTo: questionLabel.bottomAnchor, constant: 30),
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
 
             answerButton1.bottomAnchor.constraint(equalTo: answerButton2.topAnchor, constant: -10),
             answerButton1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -107,8 +117,36 @@ class QuizViewController: UIViewController {
             answerButton4.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             answerButton4.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             answerButton4.heightAnchor.constraint(equalToConstant: 45),
+            blackBackgroundView1.topAnchor.constraint(equalTo: answerButton1.topAnchor, constant: 2),
+            blackBackgroundView1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            blackBackgroundView1.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
+            blackBackgroundView1.heightAnchor.constraint(equalToConstant: 45),
+
+            blackBackgroundView2.topAnchor.constraint(equalTo: answerButton2.topAnchor, constant: 2),
+            blackBackgroundView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            blackBackgroundView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
+            blackBackgroundView2.heightAnchor.constraint(equalToConstant: 45),
+
+            blackBackgroundView3.topAnchor.constraint(equalTo: answerButton3.topAnchor, constant: 2),
+            blackBackgroundView3.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            blackBackgroundView3.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
+            blackBackgroundView3.heightAnchor.constraint(equalToConstant: 45),
+
+            blackBackgroundView4.topAnchor.constraint(equalTo: answerButton4.topAnchor, constant: 2),
+            blackBackgroundView4.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            blackBackgroundView4.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
+            blackBackgroundView4.heightAnchor.constraint(equalToConstant: 45),
+
         ])
     }
+    func createBlackBackgroundView() -> UIView {
+          let blackView = UIView()
+          blackView.translatesAutoresizingMaskIntoConstraints = false
+          blackView.backgroundColor = .black // You can customize the color
+          blackView.layer.cornerRadius = 20
+          blackView.layer.masksToBounds = true
+          return blackView
+      }
 
     private func loadSound(named fileName: String, into player: inout AVAudioPlayer?) {
         if let soundURL = Bundle.main.url(forResource: fileName, withExtension: "mp3") {
