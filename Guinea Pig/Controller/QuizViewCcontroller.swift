@@ -1,203 +1,302 @@
-//
-//  QuizViewCcontroller.swift
-//  Guinea Pig
-//
-//  Created by relwas on 24/12/23.
-//
-
 import UIKit
+import AVFoundation
 
+struct Question {
+    let imageURL: String
+    let correctAnswer: String
+    let incorrectAnswers: [String]
+}
+
+@available(iOS 13.0, *)
 class QuizViewController: UIViewController {
+    private var correctSoundPlayer: AVAudioPlayer?
+    private var incorrectSoundPlayer: AVAudioPlayer?
+    private var correctAnswers = 0
+    private var questions: [Question] = []
+    private var currentQuestionIndex = 0
+    private var musicPlayer: AVAudioPlayer?
 
-    // Array to store all available breeds
-    var allBreeds: [String] = []
-
-    // Array to store questions
-    var questions: [Question] = []
-
-    // Create your UI elements
-    let questionImageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 15
+        imageView.clipsToBounds = true
         return imageView
     }()
 
-    let breedLabel: UILabel = {
+    private let questionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.black
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "What kind of breed is this?"
+        label.textColor = UIColor(named: "LabelColor1")
+        label.font = UIFont(name: "AvenirNext-DemiBold", size: 22.0)
+        label.textAlignment = .center
         return label
     }()
 
-    let firstStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    let secondStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    private let answerButton1 = UIButton()
+    private let answerButton2 = UIButton()
+    private let answerButton3 = UIButton()
+    private let answerButton4 = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .fon
+        view.backgroundColor = UIColor(named: "Fon")
+        setupViews()
+        loadQuestions()
+        showCurrentQuestion()
 
-        // Load all available breeds
-        loadAllBreeds()
+        loadSound(named: "correctSound", into: &correctSoundPlayer)
+        loadSound(named: "incorrectSound", into: &incorrectSoundPlayer)
 
-        // Generate quiz questions
-        generateQuizQuestions()
-
-        // Display the first question
-        displayQuestion(index: 0)
-
-        // Add your UI elements to the view
-        view.addSubview(questionImageView)
-        view.addSubview(breedLabel)
-        view.addSubview(firstStackView)
-        view.addSubview(secondStackView)
-
-        // Set up constraints
-        setupConstraints()
-
-        // Add answer buttons to the stack views
-        addAnswerButtons()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateVibrationSetting), name: Notification.Name("VibrationSettingChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSoundSetting), name: Notification.Name("SoundSettingChanged"), object: nil)
     }
 
-    private func loadAllBreeds() {
-        // Load all breed names from your file structure
-        // Assuming you have a folder structure like "Breeds/BreedName/Image1.png"
-        if let breedsFolderURL = Bundle.main.resourceURL?.appendingPathComponent("Breeds") {
-            do {
-                let breedFolders = try FileManager.default.contentsOfDirectory(at: breedsFolderURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+    private func setupViews() {
+        view.addSubview(imageView)
+        view.addSubview(questionLabel)
+        view.addSubview(answerButton1)
+        view.addSubview(answerButton2)
+        view.addSubview(answerButton3)
+        view.addSubview(answerButton4)
 
-                allBreeds = breedFolders.map { $0.lastPathComponent }
-            } catch {
-                print("Error loading breed names: \(error)")
-            }
+        let buttonFont = UIFont(name: "AvenirNext-DemiBold", size: 16.0)
+        let buttonTitleColor = UIColor.white
+
+        for button in [answerButton1, answerButton2, answerButton3, answerButton4] {
+            button.titleLabel?.font = buttonFont
+            button.tintColor = buttonTitleColor
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.layer.cornerRadius = 20
+            button.backgroundColor = .buttonBack
+            button.addTarget(self, action: #selector(answerButtonTapped(_:)), for: .touchUpInside)
         }
-    }
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        questionLabel.translatesAutoresizingMaskIntoConstraints = false
+        answerButton2.translatesAutoresizingMaskIntoConstraints = false
+        answerButton3.translatesAutoresizingMaskIntoConstraints = false
+        answerButton4.translatesAutoresizingMaskIntoConstraints = false
 
-    private func generateQuizQuestions() {
-        // Generate quiz questions with random breeds
-        for _ in 1...15 {
-            let randomIndex = Int(arc4random_uniform(UInt32(allBreeds.count)))
-            let breed = allBreeds[randomIndex]
-
-            // Create a question with the breed name and answer options
-            let question = Question(breedName: breed, answerOptions: generateAnswerOptions(correctBreed: breed))
-            questions.append(question)
-        }
-    }
-
-    private func generateAnswerOptions(correctBreed: String) -> [String] {
-        // Generate three incorrect answers and shuffle the array
-        var answerOptions = allBreeds.filter { $0 != correctBreed }
-        answerOptions.shuffle()
-
-        // Take the first three breeds as incorrect answers
-        return Array(answerOptions.prefix(3))
-    }
-
-    private func displayQuestion(index: Int) {
-        // Display the question at the specified index
-        let question = questions[index]
-        breedLabel.text = "What breed is it?"
-        questionImageView.image = UIImage(named: question.imageName)
-        setAnswerButtons(question.answerOptions)
-    }
-
-    private func setAnswerButtons(_ answerOptions: [String]) {
-        // Set the titles of the answer buttons
-        for (index, button) in [firstStackView, secondStackView].flatMap({ $0.arrangedSubviews }).enumerated() {
-            if let button = button as? UIButton {
-                button.setTitle(answerOptions[index], for: .normal)
-            }
-        }
-    }
-
-    
-    private func setupConstraints() {
-        // Add your constraints here, for example:
         NSLayoutConstraint.activate([
-            questionImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            questionImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            questionImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            questionImageView.heightAnchor.constraint(equalToConstant: 200),
-            
-            breedLabel.topAnchor.constraint(equalTo: questionImageView.bottomAnchor, constant: 20),
-            breedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            
-            firstStackView.bottomAnchor.constraint(equalTo: secondStackView.topAnchor, constant: -20),
-            firstStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            firstStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            firstStackView.heightAnchor.constraint(equalToConstant: 45),
-            
-            secondStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            secondStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            secondStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            secondStackView.heightAnchor.constraint(equalToConstant: 45),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            imageView.heightAnchor.constraint(equalToConstant: 250),
+
+            questionLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30),
+            questionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            questionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+
+            answerButton1.bottomAnchor.constraint(equalTo: answerButton2.topAnchor, constant: -10),
+            answerButton1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            answerButton1.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            answerButton1.heightAnchor.constraint(equalToConstant: 45),
+
+            answerButton2.bottomAnchor.constraint(equalTo: answerButton3.topAnchor, constant: -10),
+            answerButton2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            answerButton2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            answerButton2.heightAnchor.constraint(equalToConstant: 45),
+
+            answerButton3.bottomAnchor.constraint(equalTo: answerButton4.topAnchor, constant: -10),
+            answerButton3.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            answerButton3.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            answerButton3.heightAnchor.constraint(equalToConstant: 45),
+
+            answerButton4.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            answerButton4.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            answerButton4.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            answerButton4.heightAnchor.constraint(equalToConstant: 45),
         ])
     }
-    
-    private func addAnswerButtons() {
-        // Create and add your answer buttons to the stack views
-        for i in 1...4 {
-            let button = UIButton(type: .system)
-            button.setTitle("Answer \(i)", for: .normal)
-            button.addTarget(self, action: #selector(answerButtonTapped(_:)), for: .touchUpInside)
-            
-            if i <= 2 {
-                firstStackView.addArrangedSubview(button)
-            } else {
-                secondStackView.addArrangedSubview(button)
+
+    private func loadSound(named fileName: String, into player: inout AVAudioPlayer?) {
+        if let soundURL = Bundle.main.url(forResource: fileName, withExtension: "mp3") {
+            do {
+                player = try AVAudioPlayer(contentsOf: soundURL)
+                player?.prepareToPlay()
+            } catch let error {
+                print("Error loading \(fileName) sound: \(error.localizedDescription)")
             }
+        } else {
+            print("Could not find \(fileName) sound file.")
         }
     }
-    
-    @objc private func answerButtonTapped(_ sender: UIButton) {
-        // Handle button tap
-        if let buttonText = sender.titleLabel?.text {
-            print("Selected answer: \(buttonText)")
-            // Add your logic for handling the selected answer
 
-            // Move to the next question
-            if let currentIndex = questions.firstIndex(where: { $0.breedName == breedLabel.text }) {
-                let nextIndex = currentIndex + 1
-                if nextIndex < questions.count {
-                    displayQuestion(index: nextIndex)
-                } else {
-                    // Quiz finished, move to the result controller
-                    moveToResultController()
+    private func loadQuestions() {
+        if let breedsURL = Bundle.main.url(forResource: "Breeds", withExtension: nil),
+           let breedNames = try? FileManager.default.contentsOfDirectory(atPath: breedsURL.path) {
+
+            var questionCount = 0
+
+            for breedName in breedNames {
+                let correctAnswer = breedName
+                let incorrectAnswers = breedNames.filter { $0 != correctAnswer }
+
+                let shuffledIncorrectAnswers = incorrectAnswers.shuffled().prefix(3)
+
+                if let imageNames = try? FileManager.default.contentsOfDirectory(atPath: "\(breedsURL.path)/\(breedName)") {
+                    if let randomImageName = imageNames.shuffled().first {
+                        let question = Question(
+                            imageURL: "\(breedsURL.path)/\(breedName)/\(randomImageName)",
+                            correctAnswer: correctAnswer,
+                            incorrectAnswers: Array(shuffledIncorrectAnswers)
+                        )
+
+                        questions.append(question)
+                        questionCount += 1
+
+                        if questionCount >= 15 {
+                            break
+                        }
+                    } else {
+                        print("No images found in the folder: \(breedName)")
+                    }
                 }
             }
+        } else {
+            print("Failed to load breed names.")
         }
     }
 
-    private func moveToResultController() {
-        // Add your logic to move to the result controller
-        // For example, use a segue or present the result controller
-        // ...
+    private func showCurrentQuestion() {
+        guard currentQuestionIndex < questions.count else {
+            print("Quiz already ended.")
+            return
+        }
 
+        let currentQuestion = questions[currentQuestionIndex]
+
+        imageView.image = UIImage(named: currentQuestion.imageURL)
+        questionLabel.text = "What kind of breed is this?"
+
+        let shuffledAnswers = (currentQuestion.incorrectAnswers + [currentQuestion.correctAnswer]).shuffled()
+
+        for (button, title) in zip([answerButton1, answerButton2, answerButton3, answerButton4], shuffledAnswers) {
+            button.setTitle(title, for: .normal)
+        }
     }
-}
 
-struct Question {
-    let breedName: String
-    let answerOptions: [String]
-    var imageName: String {
-        // Assuming you have image files named "Image1.png", "Image2.png", etc.
-        return "\(breedName)/Image1.png"
+    private func moveToNextQuestion() {
+        guard currentQuestionIndex < questions.count else {
+            print("Quiz already ended.")
+            endQuiz()
+            return
+        }
+
+        currentQuestionIndex += 1
+        if currentQuestionIndex < questions.count {
+            showCurrentQuestion()
+        } else {
+            print("Quiz already ended.")
+            endQuiz()
+        }
+    }
+
+    private func resetTimer() {
+        // Timer is removed
+    }
+
+    private func startTimer() {
+        // Timer is removed
+    }
+
+    private func endQuiz() {
+        // Timer is removed
+        showResultController(correctAnswers: correctAnswers)
+    }
+
+    private func showResultController(correctAnswers: Int) {
+        let resultController = ResultViewController(correctAnswers: correctAnswers)
+        resultController.tryAgainCallback = { [weak self] in
+            self?.startNewQuiz()
+        }
+        resultController.modalPresentationStyle = .fullScreen
+        present(resultController, animated: true)
+    }
+
+    private func playMusic(musicName: String) {
+        if UserDefaults.standard.bool(forKey: "SoundSetting"), let musicURL = Bundle.main.url(forResource: musicName, withExtension: "mp3") {
+            do {
+                musicPlayer = try AVAudioPlayer(contentsOf: musicURL)
+                musicPlayer?.prepareToPlay()
+                musicPlayer?.play()
+            } catch let error {
+                print("Error playing music: \(error.localizedDescription)")
+            }
+        } else {
+            print("Sound is disabled or could not find music file.")
+        }
+    }
+
+    @objc func updateSoundSetting() {
+        if let isSoundEnabled = UserDefaults.standard.value(forKey: "SoundSetting") as? Bool {
+            if isSoundEnabled {
+                playMusic(musicName: "your_music_file_name")
+            } else {
+                stopMusic()
+            }
+        }
+    }
+
+    private func stopMusic() {
+        musicPlayer?.stop()
+        musicPlayer = nil
+    }
+
+    internal func startNewQuiz() {
+        correctAnswers = 0
+        currentQuestionIndex = 0
+        questions.removeAll()
+        loadQuestions()
+        showCurrentQuestion()
+        // Timer is removed
+    }
+
+    @objc private func timerTick() {
+        // Timer is removed
+    }
+
+    @objc func updateVibrationSetting(_ notification: Notification) {
+        // Vibration code is removed
+    }
+
+    @objc private func answerButtonTapped(_ sender: UIButton) {
+        guard currentQuestionIndex < questions.count else {
+            return
+        }
+
+        let isCorrectAnswer = sender.title(for: .normal) == questions[currentQuestionIndex].correctAnswer
+
+        if isCorrectAnswer {
+            correctAnswers += 1
+            if UserDefaults.standard.bool(forKey: "SoundSetting") {
+                correctSoundPlayer?.play()
+            }
+            sender.backgroundColor = .green  // Change color for correct answer
+        } else {
+            if UserDefaults.standard.bool(forKey: "SoundSetting") {
+                incorrectSoundPlayer?.play()
+            }
+            sender.backgroundColor = .red
+        }
+
+        for button in [answerButton1, answerButton2, answerButton3, answerButton4] {
+            button.isUserInteractionEnabled = false
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.moveToNextQuestion()
+            self.resetButtonColors()
+            for button in [self.answerButton1, self.answerButton2, self.answerButton3, self.answerButton4] {
+                button.isUserInteractionEnabled = true
+            }
+        }
+    }
+
+    private func resetButtonColors() {
+        for button in [answerButton1, answerButton2, answerButton3, answerButton4] {
+            button.backgroundColor = .buttonBack
+        }
     }
 }
