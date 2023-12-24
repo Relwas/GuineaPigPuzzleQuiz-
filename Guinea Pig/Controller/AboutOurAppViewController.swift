@@ -1,9 +1,4 @@
-//
-//  aboutOurAppViewController.swift
-//  Guinea Pig
-//
-//  Created by relwas on 24/12/23.
-//
+
 
 import UIKit
 
